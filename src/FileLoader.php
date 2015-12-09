@@ -16,7 +16,7 @@ class FileLoader implements Loader {
     }
 
     public function load($key) {
-        return file_get_contents("$this->root$this->extension");
+        return file_get_contents("$this->root$key$this->extension");
     }
 
 }
