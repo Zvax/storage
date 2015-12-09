@@ -1,4 +1,5 @@
 {
+  "name": "zvax/storage",
   "autoload": {
     "psr-4": {
       "Storage\\": "src/"
