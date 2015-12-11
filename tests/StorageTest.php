@@ -18,11 +18,14 @@ class StorageTest extends \Tests\BaseStorageCase
         $loader = new \Storage\FileLoader(__DIR__.'/test_files/');
         $string = $loader->getAsString('dummy.txt');
         $this->assertInternalType('string',$string);
+        $this->assertContains('test string',$string);
 
+        $file = $loader->load('dummy.txt');
         ob_start();
-        $loader->load('dummy.txt');
+        require $file;
         $string = ob_get_clean();
         $this->assertInternalType('string',$string);
+        $this->assertContains('test string',$string);
     }
     public function testExtensionsWithoutDot()
     {
