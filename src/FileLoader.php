@@ -20,12 +20,15 @@ class FileLoader implements Loader
 
     public function getAsString($key)
     {
-        return file_get_contents("$this->root$key$this->extension");
+        $file = new File("$this->root$key$this->extension");
+        ob_start();
+        require $file;
+        return ob_get_clean();
     }
 
     public function load($key)
     {
-        require "$this->root$key$this->extension";
+        return new File("$this->root$key$this->extension");
     }
 
 }
