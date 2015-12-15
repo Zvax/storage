@@ -15,7 +15,7 @@ class FileLoader implements Loader
         $root = rtrim($root, '/') . '/';
         if (!is_dir($root)) throw new InvalidRootException($root);
         $this->root = $root;
-        $this->extension = '.' . ltrim($extension,'.');
+        $this->extension = strlen($extension) ? '.' . ltrim($extension,'.') : "";
     }
 
     public function getAsString($key)
