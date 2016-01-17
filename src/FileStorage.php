@@ -2,7 +2,7 @@
 
 namespace Storage;
 
-class FileStorage implements \ArrayAccess {
+class FileStorage implements Storage {
 
     private $root;
 
