@@ -10,9 +10,9 @@ class FileLoader implements Loader
     private $root;
     private $extension;
 
-    public function __construct($root, $extension = "")
+    public function __construct($root,$extension = "")
     {
-        $root = rtrim($root, '/') . '/';
+        $root = rtrim($root,'/') . '/';
         if (!is_dir($root)) throw new InvalidRootException($root);
         $this->root = $root;
         $this->extension = strlen($extension) ? '.' . ltrim($extension,'.') : "";
@@ -20,7 +20,7 @@ class FileLoader implements Loader
 
     public function getAsString($key)
     {
-        $file = new File("$this->root$key$this->extension");
+        $file = new File($this->makeFullName($key));
         ob_start();
         require $file;
         return ob_get_clean();
@@ -28,7 +28,17 @@ class FileLoader implements Loader
 
     public function load($key)
     {
-        return new File("$this->root$key$this->extension");
+        return new File($this->makeFullName($key));
+    }
+
+    public function exists($key)
+    {
+        return file_exists($this->makeFullName($key));
+    }
+
+    private function makeFullName($key)
+    {
+        return "$this->root$key$this->extension";
     }
 
 }
