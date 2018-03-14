@@ -1,17 +1,17 @@
-<?php
+<?php declare(strict_types=1);
 
-class SessionStorageTest extends \Tests\BaseStorageCase
+namespace Storage\Test;
+
+use PHPUnit\Framework\TestCase;
+use Storage\PhpSessionStorage;
+
+class SessionStorageTest extends TestCase
 {
-
-    public function testInit()
+    /** @test */
+    public function inits(): void
     {
-
-        $container = new \Storage\PhpSessionStorage();
-
-        $container["key"] = "value";
-
-        $this->assertEquals("value",$container["key"]);
-
+        $container = new PhpSessionStorage;
+        $container['key'] = 'value';
+        $this->assertEquals('value', $container['key']);
     }
-
 }

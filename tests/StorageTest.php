@@ -1,48 +1,66 @@
-<?php
+<?php declare(strict_types=1);
 
-class StorageTest extends \Tests\BaseStorageCase
+namespace Storage\Tests;
+
+use PHPUnit\Framework\TestCase;
+use Storage\File;
+use Storage\FileLoader;
+use Storage\Loader;
+
+class StorageTest extends TestCase
 {
-    public function testInstantiates()
+    /** @test */
+    public function instantiates(): void
     {
-        $loader = new \Storage\FileLoader(__DIR__);
-        $this->assertInstanceOf('Storage\Loader',$loader);
+        $loader = new FileLoader(__DIR__);
+        $this->assertInstanceOf(Loader::class, $loader);
     }
-    public function testWithoutTrailingSlash()
+
+    /** @test */
+    public function works_without_trailling_slash(): void
     {
-        $loader = new \Storage\FileLoader(__DIR__.'/test_files','txt');
+        $loader = new FileLoader(__DIR__ . '/test_files', 'txt');
         $string = $loader->getAsString('dummy');
-        $this->assertInternalType('string',$string);
+        $this->assertIsString($string);
     }
-    public function testLoad()
+
+    /** @test */
+    public function loads(): void
     {
-        $loader = new \Storage\FileLoader(__DIR__.'/test_files/','txt');
+        $loader = new FileLoader(__DIR__ . '/test_files/', 'txt');
         $string = $loader->getAsString('dummy');
-        $this->assertInternalType('string',$string);
-        $this->assertContains('test string',$string);
+        $this->assertIsString($string);
+        $this->assertStringContainsString('test string', $string);
 
         $file = $loader->load('dummy');
         ob_start();
         require $file;
         $string = ob_get_clean();
-        $this->assertInternalType('string',$string);
-        $this->assertContains('test string',$string);
+        $this->assertIsString($string);
+        $this->assertStringContainsString('test string', $string);
     }
-    public function testExtensionsWithoutDot()
+
+    /** @test */
+    public function extensions_without_dot(): void
     {
-        $loader = new \Storage\FileLoader(__DIR__.'/test_files/','txt');
+        $loader = new FileLoader(__DIR__ . '/test_files/', 'txt');
         $string = $loader->getAsString('dummy');
-        $this->assertInternalType('string',$string);
+        $this->assertIsString($string);
     }
-    public function testExtensions()
+
+    /** @test */
+    public function extensions_work(): void
     {
-        $loader = new \Storage\FileLoader(__DIR__.'/test_files/','.txt');
+        $loader = new FileLoader(__DIR__ . '/test_files/', '.txt');
         $string = $loader->getAsString('dummy');
-        $this->assertInternalType('string',$string);
+        $this->assertIsString($string);
     }
-    public function testLoaderWithoutSpecifyingExtension()
+
+    /** @test */
+    public function works_without_extensions(): void
     {
-        $loader = new \Storage\FileLoader(__DIR__.'/test_files/');
-        $file = $loader->load("dummy.txt");
-        $this->assertInstanceOf("\\Storage\\File",$file);
+        $loader = new FileLoader(__DIR__ . '/test_files/');
+        $file = $loader->load('dummy.txt');
+        $this->assertInstanceOf(File::class, $file);
     }
 }

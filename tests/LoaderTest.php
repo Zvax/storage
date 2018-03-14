@@ -1,16 +1,17 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests;
+namespace Storage\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Storage\FileLoader;
 
-class LoaderTest extends BaseStorageCase
+class LoaderTest extends TestCase
 {
-    public function testLoadsImages()
+    /** @test */
+    public function loads_images(): void
     {
-        $loader = new FileLoader(__DIR__.'/test_files/images/');
+        $loader = new FileLoader(__DIR__ . '/test_files/images/');
         $string = $loader->getAsString('planete.jpg');
-        $this->assertInternalType('string', $string);
+        $this->assertIsString($string);
     }
-
 }
