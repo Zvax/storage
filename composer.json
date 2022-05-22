@@ -1,10 +1,10 @@
 {
     "name": "zvax/storage",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "autoload": {
         "psr-4": {
             "Storage\\": "src/",
-            "Tests\\": "tests/src/"
+            "Storage\\Tests\\": "tests/"
         }
     },
     "require": {
