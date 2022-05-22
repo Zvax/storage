@@ -7,7 +7,7 @@ use Storage\File;
 use Storage\FileLoader;
 use Storage\Loader;
 
-class StorageTest extends TestCase
+class FileLoaderTest extends TestCase
 {
     /** @test */
     public function instantiates(): void

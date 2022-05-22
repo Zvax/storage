@@ -6,16 +6,17 @@ use Storage\Exceptions\InvalidRootException;
 
 class FileLoader implements Loader
 {
-
-    private $root;
-    private $extension;
-
-    public function __construct($root,$extension = "")
+    public function __construct(private $root, private $extension = "")
     {
-        $root = rtrim($root,'/') . '/';
-        if (!is_dir($root)) throw new InvalidRootException($root);
+        $root = rtrim($root, '/') . '/';
+        if (!is_dir($root)) {
+            throw new InvalidRootException($root);
+        }
         $this->root = $root;
-        $this->extension = strlen($extension) ? '.' . ltrim($extension,'.') : "";
+
+        if ($extension !== '') {
+            $this->extension = '.' . ltrim($extension, '.');
+        }
     }
 
     public function getAsString($key)
