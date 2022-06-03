@@ -1,16 +1,26 @@
 {
     "name": "zvax/storage",
-    "version": "1.1.0",
+    "description": "Naive interfaces and facilities to load stuff from the file system.",
+    "license": "GPL-3.0-only",
     "autoload": {
         "psr-4": {
-            "Storage\\": "src/",
+            "Storage\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
             "Storage\\Tests\\": "tests/"
         }
+    },
+    "scripts": {
+        "phpstan": "vendor/bin/phpstan analyse",
+        "test": "vendor/bin/phpunit -d memory_limit=-1"
     },
     "require": {
         "php": ">=8.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.5"
+        "phpunit/phpunit": "^9.5",
+        "phpstan/phpstan": "^1.9"
     }
 }

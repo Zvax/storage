@@ -2,23 +2,19 @@
 
 namespace Storage;
 
-use Storage\Exceptions\InvalidFileException;
+use Storage\Exception\InvalidFile;
 
 class File
 {
-    private $path;
-
-    public function __construct($path) {
-        if (!file_exists($path))
-        {
-            throw new InvalidFileException($path);
+    public function __construct(private string $path)
+    {
+        if (!file_exists($path)) {
+            throw new InvalidFile($path);
         }
-        $this->path = $path;
     }
 
     public function __toString()
     {
-        return "$this->path";
+        return $this->path;
     }
-
 }

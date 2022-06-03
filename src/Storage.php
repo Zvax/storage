@@ -2,4 +2,7 @@
 
 namespace Storage;
 
-interface Storage extends \ArrayAccess {}
+use ArrayAccess;
+
+/** @extends ArrayAccess<mixed, mixed> */
+interface Storage extends ArrayAccess {}

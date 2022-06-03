@@ -4,7 +4,7 @@ namespace Storage;
 
 class FileStorage implements Storage
 {
-    public function __construct(private string $root)
+    public function __construct(private readonly string $root)
     {
         if (!is_dir($root)) {
             // todo maybe sanely
@@ -12,14 +12,14 @@ class FileStorage implements Storage
         }
     }
 
-    public function offsetExists($offset): bool
+    public function offsetExists(mixed $offset): bool
     {
-        return file_exists("$this->root/$offset");
+        return file_exists($this->makeFullPath($offset));
     }
 
-    public function offsetGet($offset): mixed
+    public function offsetGet(mixed $offset): mixed
     {
-        return file_get_contents("$this->root/$offset");
+        return file_get_contents($this->makeFullPath($offset));
     }
 
     public function offsetSet($offset, $value): void
@@ -30,22 +30,22 @@ class FileStorage implements Storage
         file_put_contents("$this->root/$offset", $value);
     }
 
-    public function offsetUnset($offset): void
+    private function makeFullPath(mixed $offset): string
     {
-        unlink("$this->root/$offset");
+        return sprintf('%s/%s', $this->root, $offset);
     }
 
-    public function getPath($offset): string
-    {
-        return "$this->root/$offset";
-    }
-
-    private function pathify($offset): string
+    private function pathify(mixed $offset): string
     {
         $bits = explode('/', "$this->root/$offset");
         // wtf am i even doing
         array_pop($bits);
         return implode('/', $bits);
+    }
+
+    public function offsetUnset(mixed $offset): void
+    {
+        unlink($this->makeFullPath($offset));
     }
 
 }

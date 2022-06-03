@@ -2,15 +2,15 @@
 
 namespace Storage;
 
-use Storage\Exceptions\InvalidRootException;
+use Storage\Exception\InvalidRoot;
 
 class FileLoader implements Loader
 {
-    public function __construct(private $root, private $extension = "")
+    public function __construct(private string $root, private string $extension = "")
     {
         $root = rtrim($root, '/') . '/';
         if (!is_dir($root)) {
-            throw new InvalidRootException($root);
+            throw new InvalidRoot($root);
         }
         $this->root = $root;
 
@@ -19,25 +19,31 @@ class FileLoader implements Loader
         }
     }
 
-    public function getAsString($key)
+    public function getAsString(mixed $key): string
     {
         $file = new File($this->makeFullName($key));
-        return file_get_contents($file);
+
+        $contents =  file_get_contents($file);
+
+        return match ($contents) {
+            false => '',
+            default => $contents,
+        };
     }
 
-    public function load($key)
+    private function makeFullName(mixed $key): string
+    {
+        return sprintf('%s%s%s', $this->root, $key, $this->extension);
+    }
+
+    public function load(mixed $key): File
     {
         return new File($this->makeFullName($key));
     }
 
-    public function exists($key)
+    public function exists(mixed $key): bool
     {
         return file_exists($this->makeFullName($key));
-    }
-
-    private function makeFullName($key)
-    {
-        return "$this->root$key$this->extension";
     }
 
 }

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Storage\Tests;
+namespace Storage\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 use Storage\File;
@@ -17,9 +17,16 @@ class FileLoaderTest extends TestCase
     }
 
     /** @test */
+    public function can_see_existing_files(): void
+    {
+        $loader = new FileLoader(__DIR__);
+        $this->assertTrue($loader->exists('FileLoaderTest.php'));
+    }
+
+    /** @test */
     public function works_without_trailling_slash(): void
     {
-        $loader = new FileLoader(__DIR__ . '/test_files', 'txt');
+        $loader = new FileLoader(__DIR__ . '/../test_files', 'txt');
         $string = $loader->getAsString('dummy');
         $this->assertIsString($string);
     }
@@ -27,7 +34,7 @@ class FileLoaderTest extends TestCase
     /** @test */
     public function loads(): void
     {
-        $loader = new FileLoader(__DIR__ . '/test_files/', 'txt');
+        $loader = new FileLoader(__DIR__ . '/../test_files/', 'txt');
         $string = $loader->getAsString('dummy');
         $this->assertIsString($string);
         $this->assertStringContainsString('test string', $string);
@@ -43,7 +50,7 @@ class FileLoaderTest extends TestCase
     /** @test */
     public function extensions_without_dot(): void
     {
-        $loader = new FileLoader(__DIR__ . '/test_files/', 'txt');
+        $loader = new FileLoader(__DIR__ . '/../test_files/', 'txt');
         $string = $loader->getAsString('dummy');
         $this->assertIsString($string);
     }
@@ -51,7 +58,7 @@ class FileLoaderTest extends TestCase
     /** @test */
     public function extensions_work(): void
     {
-        $loader = new FileLoader(__DIR__ . '/test_files/', '.txt');
+        $loader = new FileLoader(__DIR__ . '/../test_files/', '.txt');
         $string = $loader->getAsString('dummy');
         $this->assertIsString($string);
     }
@@ -59,7 +66,7 @@ class FileLoaderTest extends TestCase
     /** @test */
     public function works_without_extensions(): void
     {
-        $loader = new FileLoader(__DIR__ . '/test_files/');
+        $loader = new FileLoader(__DIR__ . '/../test_files/');
         $file = $loader->load('dummy.txt');
         $this->assertInstanceOf(File::class, $file);
     }

@@ -8,14 +8,17 @@ class PhpSessionStorage implements Storage
     {
         return isset($_SESSION[$offset]);
     }
+
     public function offsetGet($offset): mixed
     {
         return $_SESSION[$offset];
     }
-    public function offsetSet($offset,$value): void
+
+    public function offsetSet($offset, $value): void
     {
         $_SESSION[$offset] = $value;
     }
+
     public function offsetUnset($offset): void
     {
         unset($_SESSION[$offset]);
