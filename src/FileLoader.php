@@ -1,10 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Storage;
+namespace Zvax\Storage;
 
-use Storage\Exception\InvalidRoot;
+use SplFileInfo;
+use Zvax\Storage\Exception\InvalidRoot;
 
-class FileLoader implements Loader
+final class FileLoader implements Loader
 {
     public function __construct(private string $root, private string $extension = "")
     {
@@ -19,11 +20,11 @@ class FileLoader implements Loader
         }
     }
 
-    public function getAsString(mixed $key): string
+    public function getAsString(string $key): string
     {
-        $file = new File($this->makeFullName($key));
+        $file = new SplFileInfo($this->makeFullName($key));
 
-        $contents =  file_get_contents($file);
+        $contents =  file_get_contents((string) $file);
 
         return match ($contents) {
             false => '',
@@ -31,17 +32,17 @@ class FileLoader implements Loader
         };
     }
 
-    private function makeFullName(mixed $key): string
+    private function makeFullName(string $key): string
     {
         return sprintf('%s%s%s', $this->root, $key, $this->extension);
     }
 
-    public function load(mixed $key): File
+    public function load(string $key): SplFileInfo
     {
-        return new File($this->makeFullName($key));
+        return new SplFileInfo($this->makeFullName($key));
     }
 
-    public function exists(mixed $key): bool
+    public function exists(string $key): bool
     {
         return file_exists($this->makeFullName($key));
     }

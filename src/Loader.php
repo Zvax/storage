@@ -1,12 +1,14 @@
 <?php
 
-namespace Storage;
+namespace Zvax\Storage;
+
+use SplFileInfo;
 
 interface Loader
 {
-    public function load(mixed $key): File;
+    public function load(string $key): SplFileInfo;
 
-    public function getAsString(mixed $key): string;
+    public function getAsString(string $key): string;
 
-    public function exists(mixed $key): bool;
+    public function exists(string $key): bool;
 }

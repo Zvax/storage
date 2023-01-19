@@ -1,14 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Storage\Tests;
+namespace Zvax\Storage\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
-use Storage\PhpSessionStorage;
+use Zvax\Storage\PhpSessionStorage;
 
-class PhpSessionStorageTest extends TestCase
+final class PhpSessionStorageTest extends TestCase
 {
-    /** @test */
-    public function inits(): void
+    public function test_inits(): void
     {
         $container = new PhpSessionStorage;
         $container['key'] = 'value';
@@ -18,5 +17,20 @@ class PhpSessionStorageTest extends TestCase
         unset($container['key']);
         $this->assertFalse(isset($container['key']));
 
+    }
+
+    public function test_iterates(): void
+    {
+        $container = new PhpSessionStorage;
+        $container['key'] = 'value';
+
+        $mapped = [];
+
+        foreach ($container as $key => $value) {
+            $mapped[$key] = $value;
+        }
+
+        $this->assertCount(1, $mapped);
+        $this->assertSame('value', $mapped['key']);
     }
 }

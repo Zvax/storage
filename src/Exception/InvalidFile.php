@@ -1,10 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Storage\Exception;
+namespace Zvax\Storage\Exception;
 
 use Exception;
 
-class InvalidFile extends Exception
+final class InvalidFile extends Exception
 {
     public function __construct(string $file, int $code = 0, Exception $previous = null)
     {

@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Storage\Tests\Unit\Exception;
+namespace Zvax\Storage\Tests\Unit\Exception;
 
 use PHPUnit\Framework\TestCase;
-use Storage\Exception\InvalidFile;
+use Zvax\Storage\Exception\InvalidFile;
 
-class InvalidFileTest extends TestCase
+final class InvalidFileTest extends TestCase
 {
     /** @test */
     public function returns_message(): void

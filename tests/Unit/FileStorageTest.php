@@ -1,23 +1,23 @@
 <?php declare(strict_types=1);
 
-namespace Storage\Tests\Unit;
+namespace Zvax\Storage\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
-use Storage\FileStorage;
+use Zvax\Storage\FileStorage;
 
-class FileStorageTest extends TestCase
+final class FileStorageTest extends TestCase
 {
+    private const ROOT              = __DIR__ . '/../test_files';
     private const A_THING_FULL_NAME = __DIR__ . '/../test_files/a_thing.txt';
 
-    /** @test */
-    public function stores_a_thing(): void
+    public function test_stores_a_thing(): void
     {
         if (file_exists(self::A_THING_FULL_NAME)) {
             unlink(self::A_THING_FULL_NAME);
         }
         $this->assertFileDoesNotExist(self::A_THING_FULL_NAME);
 
-        $storage = new FileStorage(__DIR__ . '/../test_files');
+        $storage = new FileStorage(self::ROOT);
         $storage['a_thing.txt'] = 'a value';
 
         $this->assertFileExists(self::A_THING_FULL_NAME);
@@ -25,8 +25,7 @@ class FileStorageTest extends TestCase
         $this->assertEquals('a value', $storage['a_thing.txt']);
     }
 
-    /** @test */
-    public function deletes_a_thing(): void
+    public function test_deletes_a_thing(): void
     {
         $storage = new FileStorage(__DIR__ . '/../test_files');
 
@@ -39,16 +38,14 @@ class FileStorageTest extends TestCase
         $this->assertFileDoesNotExist(self::A_THING_FULL_NAME);
     }
 
-    /** @test */
-    public function basic_interface_implementation(): void
+    public function test_basic_interface_implementation(): void
     {
         $storage = new FileStorage(__DIR__ . '/../test_files');
 
         $this->assertTrue(isset($storage['dummy.txt']));
     }
 
-    /** @test */
-    public function automatically_creates_folder(): void
+    public function test_automatically_creates_folder(): void
     {
         if (file_exists(__DIR__ . '/../test_files/new_folder')) {
             rmdir(__DIR__ . '/../test_files/new_folder');
@@ -56,6 +53,21 @@ class FileStorageTest extends TestCase
         new FileStorage(__DIR__ . '/../test_files/new_folder');
         $this->assertFileExists(__DIR__ . '/../test_files/new_folder');
         rmdir(__DIR__ . '/../test_files/new_folder');
+    }
+
+    public function testIteratesOverFolder(): void
+    {
+        $storage = new FileStorage(self::ROOT);
+
+        $mapped_folder_content = [];
+
+        foreach ($storage as $key => $value) {
+            $mapped_folder_content[$key] = $value;
+        }
+
+        $this->assertCount(2, $mapped_folder_content);
+        $this->assertStringEqualsFile(sprintf('%s/%s', self::ROOT, 'dummy.txt'), $mapped_folder_content['dummy.txt']);
+        $this->assertStringEqualsFile(sprintf('%s/%s', self::ROOT, 'file_2.txt'), $mapped_folder_content['file_2.txt']);
     }
 }
 

@@ -1,15 +1,15 @@
 {
     "name": "zvax/storage",
     "description": "Naive interfaces and facilities to load stuff from the file system.",
-    "license": "GPL-3.0-only",
+    "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Storage\\": "src/"
+            "Zvax\\Storage\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Storage\\Tests\\": "tests/"
+            "Zvax\\Storage\\Tests\\": "tests/"
         }
     },
     "scripts": {
@@ -20,6 +20,7 @@
         "php": ">=8.1"
     },
     "require-dev": {
+        "roave/security-advisories": "dev-latest",
         "phpunit/phpunit": "^9.5",
         "phpstan/phpstan": "^1.9"
     }

@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Storage\Tests\Unit;
+namespace Zvax\Storage\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
-use Storage\File;
-use Storage\FileLoader;
-use Storage\Loader;
+use SplFileInfo;
+use Zvax\Storage\FileLoader;
+use Zvax\Storage\Loader;
 
-class FileLoaderTest extends TestCase
+final class FileLoaderTest extends TestCase
 {
     /** @test */
     public function instantiates(): void
@@ -68,6 +68,6 @@ class FileLoaderTest extends TestCase
     {
         $loader = new FileLoader(__DIR__ . '/../test_files/');
         $file = $loader->load('dummy.txt');
-        $this->assertInstanceOf(File::class, $file);
+        $this->assertInstanceOf(SplFileInfo::class, $file);
     }
 }

@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Storage\Tests\Unit\Exception;
+namespace Zvax\Storage\Tests\Unit\Exception;
 
 use PHPUnit\Framework\TestCase;
-use Storage\Exception\InvalidRoot;
+use Zvax\Storage\Exception\InvalidRoot;
 
-class InvalidRootTest extends TestCase
+final class InvalidRootTest extends TestCase
 {
     /** @test */
     public function returns_message(): void
